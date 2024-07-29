@@ -9,7 +9,11 @@ public interface PasswordValidator {
      */
 
     default boolean alphaCheck(String password, boolean caseInsensitive) {
-        return false;
+        if (caseInsensitive) { // 대소문자 구분없이 알파벳 체크
+            return password.matches(".*[a-zA-Z]+.*");
+        }
+
+        return password.matches(".*[a-z]+.*") && password.matches(".*[A-Z]+.*");
     }
     /**
      * 숫자 복잡성 체크
@@ -17,7 +21,8 @@ public interface PasswordValidator {
      * @return
      */
     default boolean numberCheck(String password) {
-        return false;
+       return password.matches(".*\\d+.*");
+
     }
 
     /**
@@ -25,7 +30,8 @@ public interface PasswordValidator {
      * @param password
      * @return
      */
-    default boolean specialCheck(String password) {
+    default boolean specialCharsCheck(String password) {
+        String pattern = ".*[^0-9a-zA-Zㄱ-ㅎ가-힣]+.*"; // 숫자 배제, 알파벳 배제, 한글 배제 정규표현식
         return false;
     }
 }
