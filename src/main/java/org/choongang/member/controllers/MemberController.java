@@ -18,25 +18,25 @@ public class MemberController {
     private final JoinValidator joinValidator;
 
     @GetMapping("/join")
-    public String join(@ModelAttribute RequestJoin from) {
+    public String join(@ModelAttribute RequestJoin form) {
         return "front/member/join";
     }
 
     @PostMapping("/join")
-    public String joinPs(@Valid RequestJoin from, Errors errors) {
+    public String joinPs(@Valid RequestJoin form, Errors errors) {
 
-        joinValidator.validate(from, errors);
+        joinValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
             return "front/member/join";
         }
 
-        return "redirect:/member/login/";
+        return "redirect:/member/login";
     }
 
     @GetMapping("/login")
     public String login() {
+
         return "front/member/login";
     }
-
 }

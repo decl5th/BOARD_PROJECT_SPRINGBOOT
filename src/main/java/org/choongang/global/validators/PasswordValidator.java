@@ -32,6 +32,6 @@ public interface PasswordValidator {
      */
     default boolean specialCharsCheck(String password) {
         String pattern = ".*[^0-9a-zA-Zㄱ-ㅎ가-힣]+.*"; // 숫자 배제, 알파벳 배제, 한글 배제 정규표현식
-        return false;
+        return password.matches(pattern);
     }
 }

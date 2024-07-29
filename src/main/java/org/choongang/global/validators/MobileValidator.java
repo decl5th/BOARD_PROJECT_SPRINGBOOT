@@ -13,7 +13,7 @@ public interface MobileValidator {
          */
 
         mobile = mobile.replaceAll("\\D", ""); // 패턴은 최대한 단순하게
-        String pattern = "01[016]-\\d{3,4}-\\d{4}$"; // $를 통해 끝나는 범위 설정
+        String pattern = "01[016]\\d{3,4}\\d{4}$"; // $를 통해 끝나는 범위 설정
 
         return mobile.matches(pattern);
     }
