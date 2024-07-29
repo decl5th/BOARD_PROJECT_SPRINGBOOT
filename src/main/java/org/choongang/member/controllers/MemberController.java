@@ -1,8 +1,8 @@
-package org.choongang.global.member.controllers;
+package org.choongang.member.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.choongang.global.member.validators.JoinValidator;
+import org.choongang.member.validators.JoinValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
