@@ -2,10 +2,26 @@ package org.choongang.member.repositories;
 
 import org.choongang.member.entities.Member;
 import org.choongang.member.entities.QMember;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
+import java.util.Optional;
+
 public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslPredicateExecutor<Member> {
+    // 옵셔녈 형태로 값을 받아준다
+    @EntityGraph(attributePaths = "authorities") // 이 권한 처음부터 가져오도록 설정
+    /**
+     * This is a Java annotation that is used in Spring Data JPA
+     * to specify the entity graph for a query.
+     * The `attributePaths` parameter specifies the attributes of the entity that should be
+     * included in the entity graph.
+     * In this case, the `authorities` attribute of the `Member` entity will be included
+     * in the entity graph. This can be useful for optimizing performance
+     * when loading related entities.
+     */
+    Optional<Member> findByEmail(String email); // 이메일 가지고 회원 조회
+
     default boolean exists(String email) {
         // predicate의 매개변수인 exists를 통해 확인
         QMember qMember = QMember.member;
