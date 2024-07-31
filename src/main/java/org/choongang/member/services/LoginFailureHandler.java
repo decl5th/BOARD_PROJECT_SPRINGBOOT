@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.choongang.member.controllers.RequestLogin;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
@@ -23,7 +24,10 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         form.setEmail(request.getParameter("email"));
         form.setPassword(request.getParameter("password"));
 
-
+        if (exception instanceof BadCredentialsException) {
+            // 아디 또는 비번이 일치하지 않는 경우
+            form.setCode("BadCredentials.Login");
+        }
 
         form.setSuccess(false);
         session.setAttribute("requestLogin", form);
