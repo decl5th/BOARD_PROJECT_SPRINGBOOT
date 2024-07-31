@@ -3,6 +3,8 @@ package org.choongang.member.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.choongang.board.entities.Board;
+import org.choongang.board.repositories.BoardRepository;
 import org.choongang.member.MemberInfo;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.services.MemberSaveService;
@@ -27,6 +29,7 @@ public class MemberController {
     private final JoinValidator joinValidator;
     private  final MemberSaveService memberSaveService;
     private final MemberUtil memberUtil;
+    private final BoardRepository boardRepository;
 
     @ModelAttribute
     public RequestLogin getRequestLogin() {
@@ -104,5 +107,20 @@ public class MemberController {
     public void test4() {
         log.info("로그인 여부: {}", memberUtil.isLogin());
         log.info("로그인 회원: {}", memberUtil.getMember());
+    }
+
+    @ResponseBody
+    @GetMapping("/test5")
+    public void test5() {
+        /*
+        Board board = Board.builder()
+                .bid("freetalk")
+                .bname("자게")
+                .build();
+                */
+        Board board = boardRepository.findById("freetalk").orElse(null);
+        board.setBname("(수정)자유게시판");
+        boardRepository.saveAndFlush(board);
+
     }
 }
