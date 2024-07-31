@@ -18,8 +18,6 @@ public class MemberInfo implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
     private Member member;
 
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

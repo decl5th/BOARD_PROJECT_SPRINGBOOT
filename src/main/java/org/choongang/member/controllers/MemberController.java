@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.choongang.member.MemberInfo;
+import org.choongang.member.MemberUtil;
 import org.choongang.member.services.MemberSaveService;
 import org.choongang.member.validators.JoinValidator;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,7 @@ public class MemberController {
 
     private final JoinValidator joinValidator;
     private  final MemberSaveService memberSaveService;
+    private final MemberUtil memberUtil;
 
     @ModelAttribute
     public RequestLogin getRequestLogin() {
@@ -95,5 +97,12 @@ public class MemberController {
           log.info("getPrincipal(): {}", authentication.getPrincipal());
 
       }
+    }
+
+    @ResponseBody
+    @GetMapping("/test4")
+    public void test4() {
+        log.info("로그인 여부: {}", memberUtil.isLogin());
+        log.info("로그인 회원: {}", memberUtil.getMember());
     }
 }
