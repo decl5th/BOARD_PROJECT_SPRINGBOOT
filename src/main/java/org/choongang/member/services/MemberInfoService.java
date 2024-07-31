@@ -32,10 +32,6 @@ public class MemberInfoService implements UserDetailsService {
 
         List<SimpleGrantedAuthority> authorities = tmp.stream().map(a -> new SimpleGrantedAuthority(a.getAuthority().name())).toList();
 
-        if (authorities.size() > 0) {
-            return new org.springframework.security.core.userdetails.User(member.getEmail(), member.getPassword(), authorities);
-        }
-
         return MemberInfo.builder()
                 .email(member.getEmail())
                 .password(member.getPassword())
