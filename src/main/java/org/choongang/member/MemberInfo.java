@@ -48,7 +48,7 @@ public class MemberInfo implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() { // 비번이 만료됐는지 아닌지
         // false 값이면 비번 초기화하면 페이지로 이동할 수 있게 구현 가능
-        return false;
+        return true;
     }
 
     @Override

@@ -15,4 +15,6 @@ public class RequestLogin {
 
     private String code;
     private String defalutMessage;
+
+    private String redirectUrl; // 로그인 성공시 이동할 주소
 }
