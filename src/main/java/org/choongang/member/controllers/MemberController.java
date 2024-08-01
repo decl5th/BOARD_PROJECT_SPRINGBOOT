@@ -5,10 +5,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.choongang.board.entities.Board;
 import org.choongang.board.repositories.BoardRepository;
+import org.choongang.global.exceptions.ExceptionProcessor;
+import org.choongang.global.exceptions.script.AlertRedirectException;
 import org.choongang.member.MemberInfo;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.services.MemberSaveService;
 import org.choongang.member.validators.JoinValidator;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,7 +27,7 @@ import java.security.Principal;
 @RequestMapping("/member")
 @RequiredArgsConstructor
 @SessionAttributes("requestLogin")
-public class MemberController {
+public class MemberController implements ExceptionProcessor {
 
     private final JoinValidator joinValidator;
     private  final MemberSaveService memberSaveService;
@@ -38,6 +41,11 @@ public class MemberController {
 
     @GetMapping("/join")
     public String join(@ModelAttribute RequestJoin form) {
+        boolean result = false;
+        if (!result) {
+            throw new AlertRedirectException("테스트 예외", "/mypage", HttpStatus.BAD_REQUEST);
+        }
+
         return "front/member/join";
     }
 
