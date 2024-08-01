@@ -30,6 +30,24 @@ public class SecurityConfig {
         });
         /* 로그인, 로그아웃 D */
 
+        /* 인가(접근 통제) 설정 B */
+        /**
+         * This code snippet is configuring the authorization rules for HTTP requests
+         * in a Spring Security configuration.
+         * The `authorizeHttpRequests` method is used to specify the rules
+         * for which requests should be allowed or denied access.
+         * The `c` parameter is a lambda expression that represents
+         * the configuration for the authorization rules.
+         * However, in the provided code snippet, the lambda expression is empty,
+         * so no specific authorization rules are defined.
+         */
+        http.authorizeHttpRequests(c -> {
+            c.requestMatchers("/mypage/**").authenticated() // 회원 전용
+            .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                    .anyRequest().permitAll();
+        });
+
+        /* 인가(접근 통제) 설정 D */
         return http.build();
     }
 
