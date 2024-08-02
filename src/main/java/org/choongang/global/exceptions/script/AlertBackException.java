@@ -10,7 +10,7 @@ public class AlertBackException extends AlertException {
     private String target;
     private String url;
 
-    public AlertBackException(String message, String url, HttpStatus status, String target) {
+    public AlertBackException(String message, HttpStatus status) {
         super(message, status);
 
         target = StringUtils.hasText(target) ? target : "self";
@@ -21,6 +21,6 @@ public class AlertBackException extends AlertException {
     }
 
     public AlertBackException(String message, String url, HttpStatus status) {
-        this(message, url, status, null);
+        this(message, status);
     }
 }

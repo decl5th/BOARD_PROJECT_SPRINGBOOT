@@ -9,6 +9,8 @@ import java.util.Map;
 
 @Getter @Setter
 public class CommonException extends RuntimeException {
+
+    private boolean errorCode; // 에러코드 형태로 넘어줄 때는 메세지 출력 하도록 판별
     private HttpStatus status;
     private Map<String, List<String>> errorMessages;
 
