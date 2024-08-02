@@ -27,7 +27,7 @@ public class MemberUtil {
 
     public Member getMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo) {
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo) {
             // MemberInfo도 한번 더 객체 검증
             MemberInfo memberInfo = (MemberInfo) authentication.getPrincipal();
 
