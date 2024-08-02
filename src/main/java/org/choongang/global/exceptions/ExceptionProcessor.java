@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.security.access.AccessDeniedException;
 
 public interface ExceptionProcessor {
     @ExceptionHandler(Exception.class)
@@ -41,6 +42,9 @@ public interface ExceptionProcessor {
 
                 mv.addObject("script", script);
             }
+
+        } else if (e instanceof AccessDeniedException) {
+            status = HttpStatus.UNAUTHORIZED;
         }
 
         String url = request.getRequestURI();
