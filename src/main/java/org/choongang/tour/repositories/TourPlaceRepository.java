@@ -1,4 +1,4 @@
-package org.choongang.tour.repository;
+package org.choongang.tour.repositories;
 
 import org.choongang.tour.entities.TourPlace;
 import org.springframework.data.jpa.repository.JpaRepository;

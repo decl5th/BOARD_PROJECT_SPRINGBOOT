@@ -23,9 +23,11 @@ public class ApiItem {
     private LocalDateTime createdtime;
     @JsonFormat(pattern = "yyyyMMddHHmmss")
     private LocalDateTime modifiedtime;
+
     private Double dist;
     private String firstimage;
     private String firstimage2;
+    private String cpyrhtDivCd;
     private Double mapx;
     private Double mapy;
     private Integer mlevel;
