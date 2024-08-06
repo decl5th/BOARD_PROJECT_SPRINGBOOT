@@ -30,7 +30,7 @@ public class TourPlace extends BaseEntity {
     @Column(length=100)
     private String title;
 
-    @Column(length=30)
+    @Column(length=120)
     private String tel;
 
     @Column(length=150)
@@ -39,16 +39,16 @@ public class TourPlace extends BaseEntity {
     @Column(length=20)
     private String areaCode;
 
-    private boolean bookTour;
-    private double distance;
+    private Boolean bookTour;
+    private Double distance;
 
     private String firstImage;
     private String firstImage2;
 
     @Column(length=30)
     private String cpyrhtDivCd;
-    private double latitude; // mapy
-    private double longitude; // mapx
-    private int mapLevel;
-    private int sigugunCode;
+    private Double latitude; // mapy
+    private Double longitude; // mapx
+    private Integer mapLevel;
+    private Integer sigugunCode;
 }
