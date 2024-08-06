@@ -50,7 +50,8 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-tasks.named('test') {
+tasks.named('test') {ntation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
 	useJUnitPlatform()
 }
 
