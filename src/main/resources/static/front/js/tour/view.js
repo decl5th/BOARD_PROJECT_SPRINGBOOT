@@ -11,14 +11,22 @@ window.addEventListener("DOMContentLoaded", function () {
 
     const map = new kakao.maps.Map(mapEl, {
         center: new kakao.maps.LatLng(items[0][1], items[0][0]),
-        level: 3
+        level: 3,
     });
     const markers = items.map(pos => {
-       const latLng = new kakao.maps.LatLng(pos[1], pos[0]);
-       return new kakao.maps.Marker({position});
+        const position = new kakao.maps.LatLng(pos[1], pos[0]);
+        return new kakao.maps.Marker({position});
     });
 
+
     markers.forEach(marker => marker.setMap(map));
+
+    const removeEls = document.getElementsByClassName("remove");
+    for (let i = 0; i< removeEls.length; i++) {
+        removeEls[i].addEventListener("click", function() {
+           markers[i].setMap(null);
+        });
+    }
 
 
 
