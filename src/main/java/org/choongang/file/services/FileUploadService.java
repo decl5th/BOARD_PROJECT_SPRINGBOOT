@@ -22,6 +22,7 @@ public class FileUploadService {
 
     private final FileInfoRepository fileInfoRepository;
     private final FileProperties properties;
+    private final FileInfoService fileInfoService;
 
     public List<FileInfo> upload(MultipartFile[] files, String gid, String location) {
         /**
@@ -74,6 +75,8 @@ public class FileUploadService {
                 fileInfoRepository.flush();
             }
         }
+
+        uploadedFiles.forEach(fileInfoService::addFileInfo);
 
         return uploadedFiles;
     }
