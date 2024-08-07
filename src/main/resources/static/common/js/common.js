@@ -9,6 +9,7 @@ const commonLib = {
             return;
         }
 
+        // ? => 옵셔녈 체인 : 속성이 null값이면 undefined로 값이 출력되도록
         const csrfToken = document.querySelector("meta[name='csrf_token']")?.content?.trim();
         const csrfHeader = document.querySelector("meta[name='csrf_header']")?.content?.trim();
         let rootUrl = document.querySelector("meta[name='rootUrl']")?.content?.trim() ?? '';
@@ -27,7 +28,7 @@ const commonLib = {
 
         if (csrfHeader && csrfToken) {
             headers = headers ?? {};
-            headers[csrfHeader] = csrfToken;
+            headers[csrfHeader] = csrfToken; // 요청을 보낼 때마다 헤더에 토큰을 실어서 보내야 하도록
         }
 
         const options = {

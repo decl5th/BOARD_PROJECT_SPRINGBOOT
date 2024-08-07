@@ -75,7 +75,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
     for (const el of fileUploads) {
         el.addEventListener("click", function() {
-            fileEl.value = "";
+            fileEl.value = ""; // 초기화 작업
             delete fileEl.gid;
             delete fileEl.location;
 
@@ -83,7 +83,7 @@ window.addEventListener("DOMContentLoaded", function() {
             fileEl.gid = dataset.gid;
             if (dataset.location) fileEl.location = dataset.location;
 
-            fileEl.click();
+            fileEl.click(); // 동적 추가
 
         });
     }
@@ -91,7 +91,8 @@ window.addEventListener("DOMContentLoaded", function() {
 
     // 파일 업로드 처리
     fileEl.addEventListener("change", function(e) {
-        const files = e.target.files;
+        const files = e.target.files; // 현재 발생한 요소에 파일 속성이 추가
+        // 파일이 선택이 되어있지 않은 경우에 대한 예외 처리
         fileManager.upload(files, fileEl.gid, fileEl.location);
 
     });
