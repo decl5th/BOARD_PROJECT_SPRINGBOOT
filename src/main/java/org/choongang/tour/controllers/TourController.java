@@ -13,8 +13,8 @@ import java.util.List;
 @RequestMapping("/tour")
 public class TourController implements ExceptionProcessor {
 
-    @GetMapping("/view/{seq}")
-    public String view(@PathVariable("id") Long seq, Model model) {
+    @GetMapping("/view/{id}")
+    public String view(@PathVariable("id") Long id, Model model) {
 
         model.addAttribute("addCommonScript", List.of("map"));
         model.addAttribute("addScript", List.of("tour/view"));
