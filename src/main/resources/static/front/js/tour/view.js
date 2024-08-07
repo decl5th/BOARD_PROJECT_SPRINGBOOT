@@ -13,7 +13,11 @@ window.addEventListener("DOMContentLoaded", function () {
 
        const map = new kakao.maps.Map(mapEl, mapOption);
 
-
+       const markerPos = new kakao.maps.LatLng(latitude, longitude); // 좌표 객체
+       const marker = new kakao.maps.Marker({ // 생성자
+           position: markerPos // 매개변수
+       });
+       marker.setMap(map); // 마커 표기
     });
 
 });
