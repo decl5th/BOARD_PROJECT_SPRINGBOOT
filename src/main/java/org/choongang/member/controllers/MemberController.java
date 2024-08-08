@@ -8,11 +8,15 @@ import org.choongang.global.exceptions.ExceptionProcessor;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.services.MemberSaveService;
 import org.choongang.member.validators.JoinValidator;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -22,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController implements ExceptionProcessor {
 
     private final JoinValidator joinValidator;
-    private  final MemberSaveService memberSaveService;
+    private final MemberSaveService memberSaveService;
     private final MemberUtil memberUtil;
     private final BoardRepository boardRepository;
 
@@ -32,7 +36,8 @@ public class MemberController implements ExceptionProcessor {
     }
 
     @GetMapping("/join")
-    public String join(@ModelAttribute RequestJoin form) {
+    public String join(@ModelAttribute RequestJoin form, Model model) {
+        commonProcess("join", model);
         /*
         boolean result = false;
         if (!result) {
@@ -45,7 +50,8 @@ public class MemberController implements ExceptionProcessor {
     }
 
     @PostMapping("/join")
-    public String joinPs(@Valid RequestJoin form, Errors errors) {
+    public String joinPs(@Valid RequestJoin form, Errors errors, Model model) {
+        commonProcess("join", model);
 
         joinValidator.validate(form, errors);
 
@@ -61,8 +67,10 @@ public class MemberController implements ExceptionProcessor {
     }
 
     @GetMapping("/login")
-    public String login(@Valid @ModelAttribute RequestLogin form, Errors errors) {
-        // 세션 범위에서 유지 시키도록 설정 필요
+    public String login(@Valid @ModelAttribute RequestLogin form, Errors errors, Model model) {
+        commonProcess("login", model);
+
+        //세션 범위에서 유지 시키도록 설정 필요
         String code = form.getCode();
         if (StringUtils.hasText(code)) {
             errors.reject(code, form.getDefalutMessage());
@@ -76,17 +84,31 @@ public class MemberController implements ExceptionProcessor {
         return "front/member/login";
     }
 
-    @ResponseBody
-    @GetMapping("/test1")
-    @PreAuthorize("isAuthenticated()")
-    public void test1() {
-        log.info("test1 - 회원만 접근 가능");
-    }
+    /**
+     * 회원 관련 컨트롤러 공통 처리
+     *
+     * @param mode
+     * @param model
+     */
+  private void commonProcess(String mode, Model model) {
+    mode = Objects.requireNonNullElse(mode, "join");
 
-    @ResponseBody
-    @GetMapping("/test2")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public void test2() {
-        log.info("test2 - 관리자만 접근 가능");
-    }
+      List<String> addCss = new ArrayList<>();
+      List<String> addCommonScript = new ArrayList<>();
+      List<String> addScript = new ArrayList<>();
+
+      addCss.add("member/style"); // 회원 공통 스타일
+      if (mode.equals("join")) {
+          addCss.add("member/join");
+          addCommonScript.add("fileManager");
+          addScript.add("member/join");
+
+      } else if (mode.equals("login")) {
+          addCss.add("member/login");
+      }
+
+      model.addAttribute("addCss", addCss);
+      model.addAttribute("addCommonScript", addCommonScript);
+      model.addAttribute("addScript", addScript);
+  }
 }

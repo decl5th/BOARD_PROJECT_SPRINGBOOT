@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.UUID;
+
 // 커맨드 객체
 @Data
 public class RequestJoin {
@@ -27,4 +29,6 @@ public class RequestJoin {
 
     @AssertTrue // 필수항목으로 반드시 true가 되어야만 하는 애너테이션
     private boolean agree;
+
+    private String gid = UUID.randomUUID().toString();
 }
