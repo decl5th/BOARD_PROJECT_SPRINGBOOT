@@ -11,7 +11,7 @@ const fileManager = {
     upload(files, options) {
 
 
-        const { gid, locataion, single, imageOnly, done } = options;
+        const { gid, location, single, imageOnly, done } = options;
 
 
         try {
@@ -31,7 +31,7 @@ const fileManager = {
             // 이미지 형식만 업로드 가능 체크
             if (imageOnly) {
             for (const file of files) {
-                if (file.type.contains("image/")) {
+                if (!file.type.includes("image/")) {
                     throw new Error("이미지 형식만 업로드 가능.");
                 }
             }
