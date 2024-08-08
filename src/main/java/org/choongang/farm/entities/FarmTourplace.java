@@ -34,5 +34,4 @@ public class FarmTourplace extends BaseEntity {
 
     private Integer tourDays; // 여행일
 
-
 }

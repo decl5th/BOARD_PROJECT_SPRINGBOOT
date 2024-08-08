@@ -14,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 @Service
 @RequiredArgsConstructor
 public class ApiUpdateService {

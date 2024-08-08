@@ -3,6 +3,7 @@ package org.choongang.farm;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.choongang.farm.entities.FarmTourplace;
+import org.choongang.farm.repositories.FarmTourPlaceRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +20,9 @@ public class DataTest {
     @Autowired
     private ObjectMapper om;
 
+    @Autowired
+    private FarmTourPlaceRepository repository;
+
     @Test
     void test1() throws Exception {
         File file = new File("D:/data/data1.json");
@@ -26,17 +30,17 @@ public class DataTest {
 
         List<FarmTourplace> items = tmp.stream()
                 .map(d -> FarmTourplace.builder()
-                        .title(d.get("title"))
-                        .latitude(Double.valueOf(d.get("latitude")))
-                        .longitude(Double.valueOf(d.get("longitude")))
-                        .tel(d.get("tel"))
-                        .address(d.get("address"))
-                        .description(d.get("description"))
-                        .photoUrl(d.get("photoUrl"))
-                        .tourDays(Integer.valueOf(d.get("tourDays")))
+                        .title(d.get("관광지명"))
+                        .latitude(Double.valueOf(d.get("위도")))
+                        .longitude(Double.valueOf(d.get("경도")))
+                        .tel(d.get("전화번호"))
+                        .address(d.get("주소"))
+                        .description(d.get("설명"))
+                        .photoUrl(d.get("사진"))
+                        .tourDays(Integer.valueOf(d.get("여행일")))
                         .build()).toList();
 
-        items.forEach(System.out::println);
+       repository.saveAllAndFlush(items);
 
     }
 
