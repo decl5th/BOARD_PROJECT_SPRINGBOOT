@@ -8,7 +8,12 @@ const fileManager = {
      * 파일 업로드
      *
      */
-    upload(files, gid, location) {
+    upload(files, options) {
+
+
+        const { gid, locataion, single, imageOnly, done } = options;
+
+
         try {
             if (!files || files.length == 0) {
                 throw new Error("파일을 선택 하세요.");
@@ -18,8 +23,25 @@ const fileManager = {
                 throw new Error("필수 항목 누락 입니다(gid).");
             }
 
+            // 단일 파일 업로드 체크
+            if (single &&files.length > 1) {
+                throw new Error("하나의 파일만 업로드 하세요.");
+            }
+
+            // 이미지 형식만 업로드 가능 체크
+            if (imageOnly) {
+            for (const file of files) {
+                if (file.type.contains("image/")) {
+                    throw new Error("이미지 형식만 업로드 가능.");
+                }
+            }
+            }
+
             const formData = new FormData();
             formData.append("gid", gid.trim());
+            formData.append("single", single);
+            formData.append("imageOnly", imageOnly);
+            formData.append("done", done);
 
             for (const file of files) {
                 formData.append("file", file);
@@ -82,6 +104,12 @@ window.addEventListener("DOMContentLoaded", function() {
             const dataset = this.dataset;
             fileEl.gid = dataset.gid;
             if (dataset.location) fileEl.location = dataset.location;
+            fileEl.imageOnly = dataset.imageOnly === 'true';
+            fileEl.single = dataset.single === 'true';
+            fileEl.done = dataset.done === 'true';
+
+            if (fileEl.single) fileEl.multiple = false
+            else fileEl.multiple = true;
 
             fileEl.click(); // 동적 추가
 
@@ -93,7 +121,13 @@ window.addEventListener("DOMContentLoaded", function() {
     fileEl.addEventListener("change", function(e) {
         const files = e.target.files; // 현재 발생한 요소에 파일 속성이 추가
         // 파일이 선택이 되어있지 않은 경우에 대한 예외 처리
-        fileManager.upload(files, fileEl.gid, fileEl.location);
+        fileManager.upload(files, {
+            gid: fileEl.gid,
+            location: fileEl.location,
+            single: fileEl.single,
+            imageOnly: fileEl.imageOnly,
+            done: fileEl.done
+        });
 
     });
 

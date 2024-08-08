@@ -3,10 +3,7 @@ package org.choongang.file.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.file.entities.FileInfo;
-import org.choongang.file.services.FileDeleteService;
-import org.choongang.file.services.FileDownloadService;
-import org.choongang.file.services.FileInfoService;
-import org.choongang.file.services.FileUploadService;
+import org.choongang.file.services.*;
 import org.choongang.global.Utils;
 import org.choongang.global.exceptions.BadRequestException;
 import org.choongang.global.exceptions.RestExceptionProcessor;
@@ -29,17 +26,27 @@ public class FileController implements RestExceptionProcessor {
     private final FileDownloadService downloadService;
     private final FileInfoService infoService;
     private final FileDeleteService deleteService;
+    private final BeforeFileUploadProcess beforeProcess;
+    private final AfterFileUploadProcess afterProcess;
     private final Utils utils;
 
     @PostMapping("/upload")
     public ResponseEntity<JSONData> upload(@RequestPart("file") MultipartFile[] files,
                                          @Valid RequestUpload form, Errors errors) {
 
+        form.setFiles(files);
+
+
         if (errors.hasErrors()) {
             throw new BadRequestException(utils.getErrorMessages(errors));
         }
 
+        beforeProcess.process(form); // 파일 업로드 전처리
+
         List<FileInfo> items = uploadService.upload(files, form.getGid(), form.getLocation());
+
+        afterProcess.process(form); // 파일 업로드 후처리
+
         HttpStatus status = HttpStatus.CREATED;
         JSONData data = new JSONData(items);
         data.setStatus(status);
