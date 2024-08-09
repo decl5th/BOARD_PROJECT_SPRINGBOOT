@@ -1,6 +1,8 @@
 package org.choongang.member.services;
 
 import lombok.RequiredArgsConstructor;
+import org.choongang.file.entities.FileInfo;
+import org.choongang.file.services.FileInfoService;
 import org.choongang.member.MemberInfo;
 import org.choongang.member.constants.Authority;
 import org.choongang.member.entities.Authorities;
@@ -19,6 +21,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class MemberInfoService implements UserDetailsService {
 
+    private final FileInfoService fileInfoService;
     private final MemberRepository memberRepository;
 
     // 스프링을 통해 권한 기능을 가공
@@ -32,6 +35,9 @@ public class MemberInfoService implements UserDetailsService {
 
         List<SimpleGrantedAuthority> authorities = tmp.stream().map(a -> new SimpleGrantedAuthority(a.getAuthority().name())).toList();
 
+        // 추가 데이터 처리
+        addMemberInfo(member);
+
         return MemberInfo.builder()
                 .email(member.getEmail())
                 .password(member.getPassword())
@@ -39,5 +45,18 @@ public class MemberInfoService implements UserDetailsService {
                 .authorities(authorities)
                 .build();
 
+    }
+
+    /**
+     * 회원 추가 데이터 처리
+     *
+     * @param member
+     */
+    public void addMemberInfo(Member member) {
+        String gid = member.getGid();
+        List<FileInfo> items = fileInfoService.getList(gid);
+        if (items != null && !items.isEmpty()) {
+            member.setProfileImage(items.get(0));
+        }
     }
 }
