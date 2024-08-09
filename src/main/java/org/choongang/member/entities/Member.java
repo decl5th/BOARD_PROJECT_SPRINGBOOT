@@ -2,6 +2,7 @@ package org.choongang.member.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.choongang.file.entities.FileInfo;
 import org.choongang.global.entities.BaseEntity;
 
 import java.util.List;
@@ -32,4 +33,7 @@ public class Member extends BaseEntity {
     @ToString.Exclude
     @OneToMany(mappedBy = "member")
     private List<Authorities> authorities;
+
+    @Transient
+    private FileInfo profileImage;
 }

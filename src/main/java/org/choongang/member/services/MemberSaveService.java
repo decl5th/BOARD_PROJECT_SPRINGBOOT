@@ -1,6 +1,7 @@
 package org.choongang.member.services;
 
 import lombok.RequiredArgsConstructor;
+import org.choongang.file.services.FileUploadDoneService;
 import org.choongang.member.constants.Authority;
 import org.choongang.member.controllers.RequestJoin;
 import org.choongang.member.entities.Authorities;
@@ -20,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberSaveService {
 
+    private final FileUploadDoneService uploadDoneService;
     private final MemberRepository repository;
     private final AuthoritiesRepository authoritiesRepository;
     private final PasswordEncoder passwordEncoder;
@@ -61,5 +63,8 @@ public class MemberSaveService {
             authoritiesRepository.saveAllAndFlush(items);
         }
         // 권한 추가, 수정 E
+
+        // 파일 업로드 완료 처리
+        uploadDoneService.process(member.getGid());
     }
 }
