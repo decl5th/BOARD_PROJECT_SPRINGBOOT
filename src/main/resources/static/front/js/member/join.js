@@ -32,3 +32,11 @@ function fileUploadCallback(files) {
         fileManager.delete(seq);
     });
 }
+
+/**
+ *  파일 삭제 후 후속처리
+ */
+function fileDeleteCallback(file) {
+    const targetEl = document.querySelector(".profile-image");
+    if (targetEl) targetEl.innerHTML = "";
+}
