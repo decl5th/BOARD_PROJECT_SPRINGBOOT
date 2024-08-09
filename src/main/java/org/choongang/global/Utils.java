@@ -67,4 +67,30 @@ public class Utils { // 빈의 이름 - utils
         List<String> messages = getCodeMessages(new String[]{code});
         return messages.isEmpty() ? code : messages.get(0);
     }
+
+
+    /**
+     * 접속 장비 모바일인지 체크
+     *
+     * @return
+     */
+    public boolean isMobile() {
+        // 우선 요청헤더를 가져와야 함 - User-Agent 요청 헤더 정보
+        String ua = request.getHeader("User-Agent");
+
+        String pattern = ".*(iPhone|iPod|iPad|BlackBerry|Android|Windows CE|LG|MOT|SAMSUNG|SonyEricsson).*";
+
+        return ua.matches(pattern);
+    }
+
+    /**
+     * 모바일, pc 뷰 템플릿 경로 생성
+     * @param path
+     * @return
+     */
+    public String tpl(String path) {
+        String prefix = isMobile() ? "mobile/" : "front/";
+
+        return prefix + path;
+    }
 }

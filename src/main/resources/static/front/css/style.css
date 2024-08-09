@@ -41,7 +41,7 @@ img { border: 0; }
 .my-profile-image {
     width: 150px;
     height: 150px;
-    boroder-radius: 50%;
+    border-radius: 50%;
     overflow: hidden;
     position: relative;
 }

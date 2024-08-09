@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.choongang.board.repositories.BoardRepository;
+import org.choongang.global.Utils;
 import org.choongang.global.exceptions.ExceptionProcessor;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.services.MemberSaveService;
@@ -29,6 +30,7 @@ public class MemberController implements ExceptionProcessor {
     private final MemberSaveService memberSaveService;
     private final MemberUtil memberUtil;
     private final BoardRepository boardRepository;
+    private final Utils utils;
 
     @ModelAttribute
     public RequestLogin getRequestLogin() {
@@ -46,7 +48,7 @@ public class MemberController implements ExceptionProcessor {
 
          */
 
-        return "front/member/join";
+        return utils.tpl("member/join");
     }
 
     @PostMapping("/join")
@@ -56,7 +58,7 @@ public class MemberController implements ExceptionProcessor {
         joinValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
-            return "front/member/join";
+            return utils.tpl("member/join");
         }
 
         // 서비스 개발 코드 입력 공간 -> 회원 추가, 수정 가능토록
@@ -81,7 +83,7 @@ public class MemberController implements ExceptionProcessor {
             }
         }
 
-        return "front/member/login";
+        return utils.tpl("member/login");
     }
 
     /**
