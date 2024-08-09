@@ -1,5 +1,6 @@
 package org.choongang.global.configs;
 
+import jakarta.servlet.http.HttpSession;
 import org.choongang.member.services.LoginFailureHandler;
 import org.choongang.member.services.LoginSuccessHandler;
 import org.choongang.member.services.MemberAuthenticationEntryPoint;
@@ -32,7 +33,13 @@ public class SecurityConfig {
 
         http.logout(f -> {
             f.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-                    .logoutSuccessUrl("/member/login");
+                    .logoutSuccessHandler((req, res, e) -> {
+
+                        HttpSession session = req.getSession();
+                        session.removeAttribute("device");
+
+                        res.sendRedirect(req.getContextPath() + "/member/login");
+                    });
         });
         /* 로그인, 로그아웃 D */
 
